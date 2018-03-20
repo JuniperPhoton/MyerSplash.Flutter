@@ -1,8 +1,6 @@
-# myersplash_flutter
+# MyerSplash Flutter
 
-A new Flutter application.
+A new MyerSplash client written in Flutter, still in progress.
 
-## Getting Started
+This repo comes with a series of blogs about Flutter development. Stay tone!
 
-For help getting started with Flutter, view our online
-[documentation](http://flutter.io/).
