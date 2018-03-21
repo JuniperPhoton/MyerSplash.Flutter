@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 
+typedef void OnClickTitle(int index);
+
 class TitleBar extends StatelessWidget {
-  int selectedIndex = 1;
-  OnClickTitle onClickTitle = null;
   final double barHeight = 66.0;
   final double iconHeight = 24.0;
+
+  int selectedIndex = 1;
+  OnClickTitle onClickTitle = null;
 
   TitleBar(this.onClickTitle, this.selectedIndex) {
   }
@@ -48,6 +51,7 @@ class TitleBar extends StatelessWidget {
     return new Container(
         padding: new EdgeInsets.only(top: _statusBarHeight),
         height: barHeight + _statusBarHeight,
+        color: Colors.black,
         child: new Stack(
           children: <Widget>[
             new Container(
@@ -80,12 +84,7 @@ class TitleBar extends StatelessWidget {
               ),
             )
           ],
-        ),
-        decoration: new BoxDecoration(
-            color: Colors.black
         )
     );
   }
 }
-
-typedef void OnClickTitle(int index);
