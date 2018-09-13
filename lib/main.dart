@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:myersplash_flutter/main_list.dart';
 import 'app_color.dart';
 import 'title_bar.dart';
 
@@ -62,40 +63,36 @@ class _MainPageState extends State<MainPage>
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
-      body: new Container(
-          color: Colors.black,
-          child: new Column(
-            mainAxisSize: MainAxisSize.max,
-            children: <Widget>[
-              new TitleBar(_handleOnClickTitle, _selectedIndex),
-              new Expanded(
-                  child: new TabBarView(
-                    controller: _controller,
-                    children: <Widget>[
-                      new Container(
-                        color: Colors.red,
-                        child: new Text("FEATURED"),
-                      ),
-                      new Container(
-                        color: Colors.green,
-                        child: new Text("NEW"),
-                      ),
-                      new Container(
-                        color: Colors.blue,
-                        child: new Text("RANDOM"),
-                      ),
-                    ],
-                  )
+      body: new Column(
+        mainAxisSize: MainAxisSize.max,
+        children: <Widget>[
+          new TitleBar(_handleOnClickTitle, _selectedIndex),
+          new Expanded(
+              child: new TabBarView(
+                controller: _controller,
+                children: <Widget>[
+                  new Container(
+                    //child: new MainList("/photos")
+                  ),
+                  new Container(
+                      color: Colors.black,
+                      child: new MainList("/photos")
+                  ),
+                  new Container(
+                      color: Colors.black,
+                      child: new MainList("/photos/random")
+                  ),
+                ],
               )
-            ],
           )
+        ],
       ),
       backgroundColor: Colors.black,
       floatingActionButton: new FloatingActionButton(
         onPressed: _onPressedFAB,
         tooltip: 'Search images',
         child: new Icon(Icons.search, color: Colors.white),
-      ), // This trailing comma makes auto-formatting nicer for build methods.,
+      ),
     );
   }
 }
