@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:myersplash_flutter/list.dart';
+import 'package:myersplash_flutter/model/unsplash_image.dart';
 import 'app_color.dart';
 import 'title_bar.dart';
 
@@ -34,10 +36,8 @@ class _MainPageState extends State<MainPage>
   @override
   void initState() {
     super.initState();
-    _controller = new TabController(
-        length: 3,
-        vsync: this,
-        initialIndex: _selectedIndex);
+    _controller =
+        new TabController(length: 3, vsync: this, initialIndex: _selectedIndex);
     _controller.addListener(() {
       _handleOnClickTitle(_controller.index);
     });
@@ -49,8 +49,7 @@ class _MainPageState extends State<MainPage>
     super.dispose();
   }
 
-  void _onPressedFAB() {
-  }
+  void _onPressedFAB() {}
 
   void _handleOnClickTitle(int index) {
     setState(() {
@@ -58,6 +57,8 @@ class _MainPageState extends State<MainPage>
     });
     _controller?.animateTo(index);
   }
+
+  void _onTapPhoto(UnsplashImage image) {}
 
   @override
   Widget build(BuildContext context) {
@@ -70,26 +71,21 @@ class _MainPageState extends State<MainPage>
               new TitleBar(_handleOnClickTitle, _selectedIndex),
               new Expanded(
                   child: new TabBarView(
-                    controller: _controller,
-                    children: <Widget>[
-                      new Container(
-                        color: Colors.red,
-                        child: new Text("FEATURED"),
-                      ),
-                      new Container(
-                        color: Colors.green,
-                        child: new Text("NEW"),
-                      ),
-                      new Container(
-                        color: Colors.blue,
-                        child: new Text("RANDOM"),
-                      ),
-                    ],
-                  )
-              )
+                controller: _controller,
+                children: <Widget>[
+                  Container(
+                    color: Colors.green,
+                    child: new Text("NEW"),
+                  ),
+                  Container(
+                    color: Colors.green,
+                    child: new Text("FEATURED"),
+                  ),
+                  PhotoList(onTap: _onTapPhoto),
+                ],
+              ))
             ],
-          )
-      ),
+          )),
       backgroundColor: Colors.black,
       floatingActionButton: new FloatingActionButton(
         onPressed: _onPressedFAB,
