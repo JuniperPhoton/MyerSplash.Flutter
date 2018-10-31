@@ -1,58 +1,62 @@
 import 'package:flutter/material.dart';
+import 'package:myersplash_flutter/list_factory.dart';
+import 'package:myersplash_flutter/list_service.dart';
 import 'package:myersplash_flutter/model/unsplash_image.dart';
-import 'package:intl/intl.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 
 typedef void OnTapPhoto(UnsplashImage image);
 
 class PhotoList extends StatefulWidget {
-  OnTapPhoto onTap;
+  final OnTapPhoto onTap;
+  final int _category;
+  final String param;
 
-  PhotoList({@required this.onTap});
+  PhotoList(this._category, {@required this.onTap, this.param});
 
-  @override
-  State<StatefulWidget> createState() => _listState(onTapPhoto: onTap);
-}
-
-class _listState extends State<PhotoList> {
-  final _photosList = <UnsplashImage>[];
-  final OnTapPhoto onTapPhoto;
-
-  _listState({@required this.onTapPhoto});
-
-  int _page = 0;
-
-  void _populateList() {
-    final today = DateTime.now();
-
-    for (int i = 0; i < 20; i++) {
-      final current = today.subtract(Duration(days: _page * 20 + i));
-      var formatter = new DateFormat('yyyyMMdd');
-      String formatted = formatter.format(current);
-
-      _photosList.add(UnsplashImage(
-          url:
-              "https://juniperphoton.net/myersplash/wallpapers/thumbs/$formatted.jpg"));
-    }
+  ListService _createService() {
+    return ListFactory.create(_category, param);
   }
 
   @override
+  State<StatefulWidget> createState() =>
+      _ListState(_createService(), onTapPhoto: onTap);
+}
+
+class _ListState extends State<PhotoList> {
+  final OnTapPhoto onTapPhoto;
+  final ListService _listService;
+
+  _ListState(this._listService, {@required this.onTapPhoto});
+
+  @override
   Widget build(BuildContext context) {
-    return ListView.builder(itemBuilder: (context, i) {
-      if (i >= _photosList.length) {
-        _populateList();
-      }
-      return InkWell(
-        onTap: () {
-          onTapPhoto(_photosList[i]);
-        },
-        child: AspectRatio(
-          child: Image.network(
-            _photosList[i].url,
-            fit: BoxFit.cover,
-          ),
-          aspectRatio: 3 / 2.0,
-        ),
-      );
-    });
+    if (_listService is PhotoListService) {
+      return new Container(
+          child: new Center(
+              child: new Text(
+        "NO ITEMS",
+        style: TextStyle(color: Colors.white, fontSize: 30),
+      )));
+    }
+
+    return MediaQuery.removePadding(
+        context: context,
+        removeTop: true,
+        child: ListView.builder(itemBuilder: (context, i) {
+          _listService.populateList(i);
+
+          final image = _listService.get(i);
+
+          return Container(
+              color: i % 2 == 0 ? Colors.white24 : Colors.black,
+              child: InkWell(
+                onTap: () {
+                  onTapPhoto(image);
+                },
+                child: AspectRatio(
+                    aspectRatio: 3 / 2.0,
+                    child: CachedNetworkImage(imageUrl: image.url)),
+              ));
+        }));
   }
 }

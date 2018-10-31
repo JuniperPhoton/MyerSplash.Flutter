@@ -3,11 +3,11 @@ import 'package:flutter/material.dart';
 typedef void OnClickTitle(int index);
 
 class TitleBar extends StatelessWidget {
-  final double barHeight = 66.0;
+  final double barHeight = 46.0;
   final double iconHeight = 24.0;
+  final OnClickTitle onClickTitle;
 
   int selectedIndex = 1;
-  OnClickTitle onClickTitle;
 
   TitleBar(this.onClickTitle, this.selectedIndex);
 

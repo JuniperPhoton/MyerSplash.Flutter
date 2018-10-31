@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:myersplash_flutter/list.dart';
+import 'package:myersplash_flutter/list_factory.dart';
 import 'package:myersplash_flutter/model/unsplash_image.dart';
 import 'app_color.dart';
 import 'title_bar.dart';
@@ -73,15 +74,12 @@ class _MainPageState extends State<MainPage>
                   child: new TabBarView(
                 controller: _controller,
                 children: <Widget>[
-                  Container(
-                    color: Colors.green,
-                    child: new Text("NEW"),
-                  ),
-                  Container(
-                    color: Colors.green,
-                    child: new Text("FEATURED"),
-                  ),
-                  PhotoList(onTap: _onTapPhoto),
+                  PhotoList(ListFactory.CATEGORY_PHOTO,
+                      onTap: _onTapPhoto),
+                  PhotoList(ListFactory.CATEGORY_PHOTO,
+                      onTap: _onTapPhoto),
+                  PhotoList(ListFactory.CATEGORY_HIGHLIGHTS,
+                      onTap: _onTapPhoto),
                 ],
               ))
             ],
@@ -90,7 +88,8 @@ class _MainPageState extends State<MainPage>
       floatingActionButton: new FloatingActionButton(
         onPressed: _onPressedFAB,
         tooltip: 'Search images',
-        child: new Icon(Icons.search, color: Colors.white),
+        backgroundColor: Colors.white,
+        child: new Icon(Icons.search, color: Colors.black),
       ), // This trailing comma makes auto-formatting nicer for build methods.,
     );
   }

@@ -8,6 +8,7 @@ import Flutter
     didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?
   ) -> Bool {
     GeneratedPluginRegistrant.register(with: self)
+    UIApplication.shared.setStatusBarStyle(UIStatusBarStyle.lightContent, animated: false)
     return super.application(application, didFinishLaunchingWithOptions: launchOptions)
   }
 }
