@@ -7,7 +7,7 @@ class TitleBar extends StatelessWidget {
   final double iconHeight = 24.0;
   final OnClickTitle onClickTitle;
 
-  int selectedIndex = 1;
+  int selectedIndex = 0;
 
   TitleBar(this.onClickTitle, this.selectedIndex);
 

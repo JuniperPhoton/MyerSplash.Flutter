@@ -31,7 +31,7 @@ class MainPage extends StatefulWidget {
 
 class _MainPageState extends State<MainPage>
     with SingleTickerProviderStateMixin {
-  int _selectedIndex = 1;
+  int _selectedIndex = 0;
   TabController _controller;
 
   @override
@@ -75,9 +75,8 @@ class _MainPageState extends State<MainPage>
                 controller: _controller,
                 children: <Widget>[
                   PhotoList(ListFactory.CATEGORY_PHOTO,
-                      onTap: _onTapPhoto),
-                  PhotoList(ListFactory.CATEGORY_PHOTO,
-                      onTap: _onTapPhoto),
+                      param: "/photos?", onTap: _onTapPhoto),
+                  PhotoList(ListFactory.CATEGORY_PHOTO, onTap: _onTapPhoto),
                   PhotoList(ListFactory.CATEGORY_HIGHLIGHTS,
                       onTap: _onTapPhoto),
                 ],

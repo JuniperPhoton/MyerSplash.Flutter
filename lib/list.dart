@@ -30,33 +30,54 @@ class _ListState extends State<PhotoList> {
 
   @override
   Widget build(BuildContext context) {
-    if (_listService is PhotoListService) {
-      return new Container(
-          child: new Center(
-              child: new Text(
-        "NO ITEMS",
-        style: TextStyle(color: Colors.white, fontSize: 30),
-      )));
-    }
+//    if (_listService is PhotoListService) {
+//      return new Container(
+//          child: new Center(
+//              child: new Text(
+//        "NO ITEMS",
+//        style: TextStyle(
+//            color: Colors.white, fontSize: 30, fontWeight: FontWeight.bold),
+//      )));
+//    }
 
     return MediaQuery.removePadding(
         context: context,
         removeTop: true,
         child: ListView.builder(itemBuilder: (context, i) {
-          _listService.populateList(i);
+          return FutureBuilder(
+              future: _listService.populateList(i),
+              builder: (context, snapshot) {
+                switch(snapshot.connectionState){
+                  case ConnectionState.none:
+                    return Text('Press button to start.');
+                  case ConnectionState.active:
+                  case ConnectionState.waiting:
+                    return Text('Awaiting result...');
+                  case ConnectionState.done:
+                    if (snapshot.hasError){
+                      return Text('Error: ${snapshot.error}');
+                    }else{
+                      final image = _listService.get(i);
 
-          final image = _listService.get(i);
+                      if (image == null) {
+                        return Text("No item");
+                      }
 
-          return Container(
-              color: i % 2 == 0 ? Colors.white24 : Colors.black,
-              child: InkWell(
-                onTap: () {
-                  onTapPhoto(image);
-                },
-                child: AspectRatio(
-                    aspectRatio: 3 / 2.0,
-                    child: CachedNetworkImage(imageUrl: image.url)),
-              ));
-        }));
+                      return Container(
+                          color: image.fromUnsplash
+                              ? (i % 2 == 0 ? Colors.white24 : Colors.black)
+                              : Colors.white,
+                          child: InkWell(
+                            onTap: () {
+                              onTapPhoto(image);
+                            },
+                            child: AspectRatio(
+                                aspectRatio: 3 / 2.0,
+                                child: CachedNetworkImage(imageUrl: image.url)),
+                          ));
+                    }));
+                    }
+                }
+              });
   }
 }
